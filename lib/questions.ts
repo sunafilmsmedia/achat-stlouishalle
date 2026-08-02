@@ -103,7 +103,7 @@ export const QUESTIONS: QuestionDef[] = [
     id: "region",
     kind: "region",
     title: "Dans quel secteur aimerais-tu acheter ?",
-    subtitle: "Touche la carte. Tu peux ajouter jusqu'à 2 secteurs alternatifs.",
+    subtitle: "Touche le secteur qui t'intéresse sur la carte.",
   },
   {
     id: "propertyType",

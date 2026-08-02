@@ -154,11 +154,7 @@ export function buildFallbackReport(answers: Answers, scoring: ScoringResult): R
   if (mustHaves.length >= 3) {
     recommendedAdjustments.push("Classer tes critères par ordre de priorité pour gagner en flexibilité.");
   }
-  if (answers.alternateRegions && answers.alternateRegions.length > 0) {
-    recommendedAdjustments.push("Tes secteurs alternatifs élargissent déjà utilement ta recherche.");
-  } else {
-    recommendedAdjustments.push("Ajouter 1-2 secteurs alternatifs pour multiplier les occasions.");
-  }
+  recommendedAdjustments.push("Rester ouvert à un secteur voisin pour multiplier les occasions.");
   if (recommendedAdjustments.length < 3) {
     recommendedAdjustments.push("Valider la stratégie d'achat avec le courtier avant les premières visites.");
   }

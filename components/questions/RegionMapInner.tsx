@@ -5,8 +5,7 @@ import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap, useMapEvents } 
 import { REGIONS, REGION_BOUNDS, REGION_CENTER } from "@/lib/regions";
 
 interface Props {
-  value?: string; // principal
-  alternates: string[];
+  value?: string;
   onPick: (id: string) => void;
 }
 
@@ -63,7 +62,7 @@ function tooltipOffset(dir: "top" | "bottom" | "left" | "right"): [number, numbe
   }
 }
 
-export default function RegionMapInner({ value, alternates, onPick }: Props) {
+export default function RegionMapInner({ value, onPick }: Props) {
   return (
     <MapContainer
       center={REGION_CENTER}
@@ -81,19 +80,17 @@ export default function RegionMapInner({ value, alternates, onPick }: Props) {
       <FitBoundsOnMount />
       <ClickHandler onPick={onPick} />
       {REGIONS.map((r) => {
-        const isMain = value === r.id;
-        const isAlt = alternates.includes(r.id);
-        const selected = isMain || isAlt;
+        const selected = value === r.id;
         return (
           <CircleMarker
             key={r.id}
             center={[r.lat, r.lng]}
-            radius={isMain ? 16 : isAlt ? 13 : 10}
+            radius={selected ? 16 : 10}
             pathOptions={{
-              color: isMain ? "#dc142e" : isAlt ? "#c9a96e" : "#dc142e",
+              color: "#dc142e",
               weight: selected ? 4 : 2.5,
               opacity: 1,
-              fillColor: isMain ? "#dc142e" : isAlt ? "#c9a96e" : "#ffffff",
+              fillColor: selected ? "#dc142e" : "#ffffff",
               fillOpacity: selected ? 0.95 : 0.9,
             }}
             eventHandlers={{

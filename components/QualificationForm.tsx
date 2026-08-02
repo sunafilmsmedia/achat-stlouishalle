@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { getVisibleQuestions, isAnswered, MUST_HAVE_CHOICES } from "@/lib/questions";
 import { BROKER_NAME } from "@/lib/broker";
+import { regionName } from "@/lib/regions";
 import type { Answers, MustHave } from "@/lib/types";
 import ProgressBar from "./ProgressBar";
 import ChoiceQuestion from "./questions/ChoiceQuestion";
@@ -20,12 +21,15 @@ interface Props {
 
 const AUTO_ADVANCE_MS = 220;
 const FINISH_OVERLAY_MS = 1000;
+const REGION_CONFIRM_MS = 850;
 
 export default function QualificationForm({ onComplete, onDisqualified, onExit }: Props) {
   const [answers, setAnswers] = useState<Answers>({});
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [finishing, setFinishing] = useState(false);
+  // Message de confirmation transitoire (ex. après sélection d'un secteur).
+  const [confirming, setConfirming] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const visible = useMemo(() => getVisibleQuestions(answers), [answers]);
@@ -103,6 +107,25 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
         return merged;
       });
 
+      // Secteur : confirmation « Bien reçu » puis avance automatique.
+      if ("region" in partial && partial.region) {
+        if (timer.current) clearTimeout(timer.current);
+        setConfirming(`Secteur bien reçu : ${regionName(next.region)}`);
+        timer.current = setTimeout(() => {
+          setConfirming(null);
+          setDirection(1);
+          setIndex((i) => {
+            const visibleAfter = getVisibleQuestions(next);
+            if (i >= visibleAfter.length - 1) {
+              submit(next);
+              return i;
+            }
+            return i + 1;
+          });
+        }, REGION_CONFIRM_MS);
+        return;
+      }
+
       // Dernière étape : représentation courtier.
       if ("brokerStatus" in partial) {
         if (partial.brokerStatus === "under_contract") {
@@ -119,10 +142,31 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
 
       if (autoAdvance) advanceAfter(next);
     },
-    [answers, onComplete, onDisqualified, advanceAfter]
+    [answers, onComplete, onDisqualified, advanceAfter, submit]
   );
 
   if (!current) return null;
+
+  if (confirming) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="text-center"
+        >
+          <div className="mx-auto mb-6 w-14 h-14 rounded-full bg-[var(--color-brand-500)]/15 border border-[var(--color-brand-400)]/40 flex items-center justify-center">
+            <svg className="w-7 h-7 text-[var(--color-brand-300)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M4 10L8 14L16 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <h2 className="font-serif text-2xl sm:text-3xl text-[var(--color-brand-100)]">Bien reçu !</h2>
+          <p className="mt-3 text-slate-600">{confirming}</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (finishing) {
     return (
@@ -290,9 +334,7 @@ function QuestionRenderer({ current, answers, onUpdate }: RendererProps) {
       return (
         <RegionMap
           value={answers.region}
-          alternates={answers.alternateRegions ?? []}
-          onMain={(id) => onUpdate({ region: id || undefined }, false)}
-          onAlternates={(ids) => onUpdate({ alternateRegions: ids }, false)}
+          onChange={(id) => onUpdate({ region: id }, false)}
         />
       );
     case "propertyType":
