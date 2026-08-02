@@ -19,8 +19,8 @@ export default function TopLogos() {
         <Image
           src="/logo-broker.png"
           alt={BROKER_NAME}
-          width={660}
-          height={232}
+          width={620}
+          height={211}
           priority
           className="h-9 sm:h-11 w-auto"
         />
@@ -36,8 +36,8 @@ export default function TopLogos() {
         <Image
           src="/logo-franchise.png"
           alt={BROKER_FRANCHISE}
-          width={150}
-          height={90}
+          width={160}
+          height={102}
           priority
           className="h-10 sm:h-12 w-auto"
         />
