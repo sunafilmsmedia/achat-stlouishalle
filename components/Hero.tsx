@@ -22,8 +22,8 @@ export default function Hero({ onStart }: HeroProps) {
         </div>
 
         {/* H1 */}
-        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-[var(--color-brand-100)] leading-[1.05] tracking-tight text-balance">
-          Qu&apos;est-ce que ton budget te permet réellement d&apos;acheter ?
+        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[var(--color-brand-100)] leading-[1.1] tracking-tight text-balance max-w-2xl mx-auto">
+          Qu&apos;est-ce que tu peux <span className="text-[var(--color-brand-500)]">réellement</span> acheter avec ton budget ?
         </h1>
 
         {/* Sous-titre */}
