@@ -131,7 +131,7 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
             </svg>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-[var(--color-brand-100)]">Bien reçu !</h2>
-          <p className="mt-3 text-slate-400">On prépare ton analyse…</p>
+          <p className="mt-3 text-slate-600">On prépare ton analyse…</p>
         </motion.div>
       </div>
     );
@@ -169,14 +169,14 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
                 {current.title}
               </h2>
               {current.subtitle && (
-                <p className="mt-2.5 text-sm sm:text-base text-slate-400">{current.subtitle}</p>
+                <p className="mt-2.5 text-sm sm:text-base text-slate-600">{current.subtitle}</p>
               )}
             </div>
 
             <QuestionRenderer answers={answers} onUpdate={updateAndMaybeAdvance} current={current} />
 
             {current.note && (
-              <p className="mt-6 text-xs text-slate-500 leading-relaxed border-l-2 border-white/10 pl-3">
+              <p className="mt-6 text-xs text-slate-500 leading-relaxed border-l-2 border-black/10 pl-3">
                 {current.note}
               </p>
             )}
@@ -184,13 +184,13 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
         </AnimatePresence>
       </div>
 
-      <footer className="mt-8 sm:mt-10 pt-6 border-t border-white/5">
+      <footer className="mt-8 sm:mt-10 pt-6 border-t border-black/[0.08]">
         <div className="flex items-center justify-between gap-4">
           <button
             type="button"
             onClick={goPrev}
             disabled={index === 0}
-            className="px-5 py-2.5 rounded-full text-sm font-medium text-slate-400 hover:text-[var(--color-brand-200)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-5 py-2.5 rounded-full text-sm font-medium text-slate-600 hover:text-[var(--color-brand-200)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             Précédent
           </button>
@@ -212,7 +212,7 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
               type="button"
               onClick={goNext}
               disabled={!canProceed}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium bg-white/[0.06] border border-white/10 text-[var(--color-brand-100)] hover:bg-white/[0.10] hover:border-white/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium bg-black/[0.05] border border-black/10 text-[var(--color-brand-100)] hover:bg-black/[0.06] hover:border-black/15 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               Suivant
               <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">

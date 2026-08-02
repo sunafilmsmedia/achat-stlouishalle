@@ -30,7 +30,7 @@ export default function LoadingScreen() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-8 text-sm text-slate-400"
+          className="mt-8 text-sm text-slate-600"
         >
           Quelques secondes — on croise ton budget, ton secteur et tes critères
           pour évaluer la cohérence de ton projet.

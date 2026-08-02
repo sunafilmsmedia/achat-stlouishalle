@@ -59,15 +59,15 @@ export default function MultiChoiceQuestion({
                 transition-all duration-200
                 ${
                   selected
-                    ? "bg-gradient-to-br from-[var(--color-brand-600)]/30 to-[var(--color-brand-800)]/30 border border-[var(--color-brand-400)]/60 shadow-[0_0_0_3px_rgba(220,20,46,0.12)]"
+                    ? "bg-[var(--color-brand-500)]/[0.07] border border-[var(--color-brand-500)]/70 shadow-[0_0_0_3px_rgba(220,20,46,0.10)]"
                     : atLimit
                     ? "glass-card opacity-40 cursor-not-allowed"
-                    : "glass-card hover:border-white/20 hover:bg-white/[0.06]"
+                    : "glass-card hover:border-black/15 hover:bg-black/[0.03]"
                 }
               `}
             >
               <div className="flex items-center justify-between gap-3">
-                <span className={`text-sm font-medium ${selected ? "text-white" : "text-[var(--color-brand-100)]"}`}>
+                <span className={`text-sm font-medium ${selected ? "text-[var(--color-brand-600)]" : "text-[var(--color-brand-100)]"}`}>
                   {c.label}
                 </span>
                 <span
@@ -75,14 +75,14 @@ export default function MultiChoiceQuestion({
                     shrink-0 w-5 h-5 rounded-md border flex items-center justify-center transition-all
                     ${
                       selected
-                        ? "bg-[var(--color-gold)] border-[var(--color-gold)]"
-                        : "border-white/20 group-hover:border-white/40"
+                        ? "bg-[var(--color-brand-500)] border-[var(--color-brand-500)]"
+                        : "border-black/20 group-hover:border-black/40"
                     }
                   `}
                   aria-hidden
                 >
                   {selected && (
-                    <svg className="w-3 h-3 text-black" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M2 6.5L4.5 9L10 3.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}

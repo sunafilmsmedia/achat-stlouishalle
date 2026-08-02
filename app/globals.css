@@ -10,29 +10,29 @@
   --color-ink-800: #131315;
   --color-ink-700: #1c1c1f;
 
-  /* Échelle « brand » — noir/rouge (St Louis Hallé · eXp).
-     100/200 restent clairs pour la lisibilité du texte sur fond sombre ;
-     300-700 portent le rouge d'accent ; 800/900 sont les tons profonds. */
+  /* Échelle « brand » — thème CLAIR (blanc/noir/rouge · St-Louis Hallé · eXp).
+     100/200 = tons foncés pour le texte sur fond blanc ; 300-700 = rouge
+     d'accent ; 800/900 = rouges profonds (fonds translucides). */
   --color-brand-50: #fdeaec;
-  --color-brand-100: #f5f5f7; /* titres (quasi blanc) */
-  --color-brand-200: #d4d4d8; /* texte secondaire */
-  --color-brand-300: #f26d78; /* accents, sourcils, slogan */
+  --color-brand-100: #141416; /* titres (quasi noir) */
+  --color-brand-200: #52525b; /* texte secondaire */
+  --color-brand-300: #dc142e; /* accents, sourcils, slogan (rouge) */
   --color-brand-400: #ef4458; /* accent médian */
   --color-brand-500: #dc142e; /* boutons et CTA (rouge) */
   --color-brand-600: #c01126; /* dégradé bouton */
   --color-brand-700: #9e0f20; /* dégradé bouton foncé */
-  --color-brand-800: #2a1416; /* ton profond */
-  --color-brand-900: #150a0b; /* ton profond */
+  --color-brand-800: #7a0c18; /* rouge profond */
+  --color-brand-900: #4d0810; /* rouge profond */
 
-  --color-gold: #c9a96e;
-  --color-gold-soft: #e0c89a;
+  --color-gold: #a67c2e;
+  --color-gold-soft: #8a6520;
 
-  --color-franchise: #1c1c1f;
+  --color-franchise: #000000;
 }
 
 html, body {
-  background: linear-gradient(180deg, #0a0a0b 0%, #050505 50%, #0a0a0b 100%);
-  color: #e5e5e7;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f6f7 55%, #ffffff 100%);
+  color: #3f3f46;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -43,25 +43,23 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism */
+/* Cartes — verre clair sur fond blanc */
 @utility glass-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow:
-    0 20px 60px -20px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(220, 20, 46, 0.04) inset;
+    0 12px 40px -20px rgba(0, 0, 0, 0.18),
+    0 1px 0 0 rgba(255, 255, 255, 0.7) inset;
 }
 
 @utility glass-card-light {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow:
-    0 30px 80px -30px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.25);
 }
 
 @utility text-balance {
@@ -69,10 +67,10 @@ body {
 }
 
 @utility text-shadow-title {
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* AI shimmer — dégradé rouge / or / blanc */
+/* AI shimmer — dégradé rouge / or / noir (visible sur blanc) */
 @keyframes ai-shimmer {
   0% { background-position: 0% 50%; }
   100% { background-position: 200% 50%; }
@@ -80,12 +78,12 @@ body {
 .ai-shimmer {
   background-image: linear-gradient(
     90deg,
-    #ef4458 0%,
-    #c9a96e 18%,
-    #f5f5f7 36%,
-    #ef4458 54%,
-    #e0c89a 72%,
-    #ef4458 100%
+    #dc142e 0%,
+    #a67c2e 18%,
+    #141416 36%,
+    #dc142e 54%,
+    #9e0f20 72%,
+    #dc142e 100%
   );
   background-size: 200% auto;
   background-clip: text;
@@ -97,12 +95,12 @@ body {
 .ai-shimmer-fast {
   background-image: linear-gradient(
     90deg,
-    #ef4458 0%,
-    #c9a96e 18%,
-    #f5f5f7 36%,
-    #ef4458 54%,
-    #e0c89a 72%,
-    #ef4458 100%
+    #dc142e 0%,
+    #a67c2e 18%,
+    #141416 36%,
+    #dc142e 54%,
+    #9e0f20 72%,
+    #dc142e 100%
   );
   background-size: 200% auto;
   background-clip: text;
@@ -127,9 +125,9 @@ body {
   opacity: 0.5;
 }
 
-/* Carte de fond — noir et blanc (Positron) */
+/* Carte de fond — noir et blanc (Positron), très légère */
 .map-mono {
-  filter: grayscale(1) contrast(1.05) brightness(1.02) opacity(0.5);
+  filter: grayscale(1) contrast(1.02) brightness(1.03) opacity(0.35);
 }
 .map-no-interaction {
   pointer-events: none !important;
@@ -141,27 +139,27 @@ body {
   font-family: var(--font-sans);
 }
 .leaflet-control-attribution {
-  background: rgba(10, 10, 11, 0.6) !important;
-  color: rgba(229, 229, 231, 0.5) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(63, 63, 70, 0.6) !important;
   font-size: 10px !important;
   padding: 2px 6px !important;
   border-radius: 4px;
 }
 .leaflet-control-attribution a {
-  color: rgba(242, 109, 120, 0.7) !important;
+  color: rgba(220, 20, 46, 0.8) !important;
 }
 
 /* Étiquettes (tooltips) Leaflet sur la carte régions */
 .region-label {
-  background: rgba(255, 255, 255, 0.96) !important;
-  border: 1px solid rgba(220, 20, 46, 0.3) !important;
-  color: #131315 !important;
+  background: rgba(20, 20, 22, 0.92) !important;
+  border: 1px solid rgba(220, 20, 46, 0.4) !important;
+  color: #ffffff !important;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 12px;
   padding: 4px 10px !important;
   border-radius: 9999px !important;
-  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.35) !important;
 }
 .region-label::before {
   display: none !important;

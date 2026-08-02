@@ -42,12 +42,12 @@ export default function CurrencyQuestion({
           }}
           placeholder={placeholder}
           className="
-            flex-1 font-serif text-4xl sm:text-5xl text-white bg-transparent
-            placeholder:text-white/20 focus:outline-none w-full
+            flex-1 font-serif text-4xl sm:text-5xl text-[var(--color-brand-100)] bg-transparent
+            placeholder:text-slate-300 focus:outline-none w-full
             tracking-wide
           "
         />
-        <span className="text-sm text-slate-400">CAD</span>
+        <span className="text-sm text-slate-600">CAD</span>
       </div>
       {helper && <p className="text-xs text-slate-500 mt-3">{helper}</p>}
     </div>

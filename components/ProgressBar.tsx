@@ -17,7 +17,7 @@ export default function ProgressBar({ current, total }: ProgressBarProps) {
         </span>
         <span className="text-[var(--color-gold)] font-medium">{Math.round(pct)} %</span>
       </div>
-      <div className="h-[3px] w-full rounded-full bg-white/5 overflow-hidden">
+      <div className="h-[3px] w-full rounded-full bg-black/[0.04] overflow-hidden">
         <motion.div
           initial={false}
           animate={{ width: `${pct}%` }}

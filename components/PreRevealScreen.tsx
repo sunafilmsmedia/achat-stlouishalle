@@ -50,7 +50,7 @@ export default function PreRevealScreen({ onContinue }: Props) {
         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] leading-[1.05] tracking-tight text-balance">
           Ton analyse est prête.
         </h1>
-        <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
+        <p className="mt-5 text-base sm:text-lg text-slate-600 leading-relaxed text-balance max-w-md mx-auto">
           Veux-tu découvrir ce que ton budget et tes critères te permettent réellement de viser ?
         </p>
 
@@ -71,7 +71,7 @@ export default function PreRevealScreen({ onContinue }: Props) {
           "
         >
           <span className="block font-medium text-base sm:text-lg">Oui, je veux voir mon analyse</span>
-          <span className="block text-xs sm:text-sm text-[var(--color-brand-100)]/80 mt-1">
+          <span className="block text-xs sm:text-sm text-white/85 mt-1">
             Analyse personnalisée de ton projet d&apos;achat
           </span>
           <span className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
@@ -96,8 +96,8 @@ export default function PreRevealScreen({ onContinue }: Props) {
           onClick={() => handleClick("no")}
           disabled={!ready}
           className="
-            mt-6 mx-auto text-xs sm:text-sm text-slate-500 hover:text-slate-300
-            transition-colors underline underline-offset-4 decoration-white/15 block
+            mt-6 mx-auto text-xs sm:text-sm text-slate-500 hover:text-slate-700
+            transition-colors underline underline-offset-4 decoration-black/15 block
             disabled:cursor-wait
           "
         >

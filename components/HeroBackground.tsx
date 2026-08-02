@@ -31,19 +31,19 @@ export default function HeroBackground() {
         </MapContainer>
       </div>
 
-      {/* Voile radial adapté au thème noir/rouge pour la lisibilité */}
+      {/* Voile radial blanc pour la lisibilité (thème clair) */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 30%, rgba(20, 10, 11, 0.35) 0%, rgba(5, 5, 5, 0.88) 60%, rgba(0, 0, 0, 0.97) 100%)",
+            "radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.85) 55%, rgba(255,255,255,0.97) 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 20%, rgba(220,20,46,0.06) 0%, rgba(220,20,46,0) 55%)",
+            "radial-gradient(ellipse at 50% 15%, rgba(220,20,46,0.05) 0%, rgba(220,20,46,0) 55%)",
         }}
       />
     </div>

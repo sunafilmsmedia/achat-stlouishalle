@@ -28,27 +28,27 @@ export default function ChoiceQuestion({ choices, value, onChange }: Props) {
               transition-all duration-200
               ${
                 selected
-                  ? "bg-gradient-to-br from-[var(--color-brand-600)]/30 to-[var(--color-brand-800)]/30 border border-[var(--color-brand-400)]/60 shadow-[0_0_0_3px_rgba(58,109,255,0.12)]"
-                  : "glass-card hover:border-white/20 hover:bg-white/[0.06]"
+                  ? "bg-[var(--color-brand-500)]/[0.07] border border-[var(--color-brand-500)]/70 shadow-[0_0_0_3px_rgba(220,20,46,0.10)]"
+                  : "glass-card hover:border-black/15 hover:bg-black/[0.03]"
               }
             `}
           >
             <div className="flex items-center justify-between gap-4">
               <div className="min-w-0 flex-1">
-                <p className={`font-medium ${selected ? "text-white" : "text-[var(--color-brand-100)]"}`}>
+                <p className={`font-medium ${selected ? "text-[var(--color-brand-600)]" : "text-[var(--color-brand-100)]"}`}>
                   {c.label}
                 </p>
                 {c.hint && (
-                  <p className="text-xs text-slate-400 mt-0.5">{c.hint}</p>
+                  <p className="text-xs text-slate-600 mt-0.5">{c.hint}</p>
                 )}
               </div>
               <span
                 className={`
-                  shrink-0 w-5 h-5 rounded-full border transition-all
+                  shrink-0 w-5 h-5 rounded-full border transition-all flex items-center justify-center
                   ${
                     selected
-                      ? "bg-[var(--color-gold)] border-[var(--color-gold)] shadow-[0_0_12px_rgba(201,169,110,0.5)]"
-                      : "border-white/20 group-hover:border-white/40"
+                      ? "bg-[var(--color-brand-500)] border-[var(--color-brand-500)] shadow-[0_0_10px_rgba(220,20,46,0.4)]"
+                      : "border-black/20 group-hover:border-black/40"
                   }
                 `}
                 aria-hidden

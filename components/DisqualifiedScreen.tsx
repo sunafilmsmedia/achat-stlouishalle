@@ -33,7 +33,7 @@ export default function DisqualifiedScreen({ onRestart }: Props) {
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[var(--color-brand-100)] leading-[1.1] tracking-tight text-balance">
           Tu es déjà bien accompagné.
         </h1>
-        <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
+        <p className="mt-5 text-base sm:text-lg text-slate-600 leading-relaxed text-balance max-w-md mx-auto">
           Comme tu es déjà représenté par un courtier pour ton achat, le mieux est de
           valider ton projet directement avec lui. On respecte cette relation — tes
           informations ne seront pas transmises à notre équipe.
@@ -44,9 +44,9 @@ export default function DisqualifiedScreen({ onRestart }: Props) {
           className="
             mt-10 inline-flex items-center gap-2
             px-6 py-3 rounded-full text-sm font-medium
-            bg-white/[0.06] border border-white/10
+            bg-black/[0.05] border border-black/10
             text-[var(--color-brand-100)]
-            hover:bg-white/[0.10] hover:border-white/20
+            hover:bg-black/[0.06] hover:border-black/15
             transition-all
           "
         >

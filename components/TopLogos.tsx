@@ -19,10 +19,10 @@ export default function TopLogos() {
         <Image
           src="/logo-broker.png"
           alt={BROKER_NAME}
-          width={2716}
-          height={412}
+          width={660}
+          height={232}
           priority
-          className="h-7 sm:h-9 w-auto"
+          className="h-9 sm:h-11 w-auto"
         />
       </motion.div>
 
@@ -36,10 +36,10 @@ export default function TopLogos() {
         <Image
           src="/logo-franchise.png"
           alt={BROKER_FRANCHISE}
-          width={957}
-          height={259}
+          width={150}
+          height={90}
           priority
-          className="h-7 sm:h-9 w-auto"
+          className="h-10 sm:h-12 w-auto"
         />
       </motion.div>
     </>

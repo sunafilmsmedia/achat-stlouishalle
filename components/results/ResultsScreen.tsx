@@ -24,10 +24,10 @@ const PREP_LABEL: Record<LeadSegment, string> = {
 };
 
 const FIT_META: Record<ProjectFit, { label: string; color: string; bg: string; ring: string }> = {
-  strong: { label: "Forte", color: "text-emerald-300", bg: "bg-emerald-500/10", ring: "ring-emerald-500/30" },
-  possible: { label: "Possible", color: "text-emerald-200", bg: "bg-emerald-500/10", ring: "ring-emerald-500/25" },
-  tight: { label: "Serrée", color: "text-amber-300", bg: "bg-amber-500/10", ring: "ring-amber-500/30" },
-  unknown: { label: "À valider", color: "text-slate-300", bg: "bg-white/5", ring: "ring-white/15" },
+  strong: { label: "Forte", color: "text-emerald-700", bg: "bg-emerald-50", ring: "ring-emerald-300" },
+  possible: { label: "Possible", color: "text-emerald-700", bg: "bg-emerald-50", ring: "ring-emerald-200" },
+  tight: { label: "Serrée", color: "text-amber-700", bg: "bg-amber-50", ring: "ring-amber-300" },
+  unknown: { label: "À valider", color: "text-slate-700", bg: "bg-black/[0.03]", ring: "ring-black/10" },
 };
 
 const PROPERTY_LABEL: Record<string, string> = {
@@ -67,7 +67,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
         >
           <div className="relative mx-auto mb-7 w-16 h-16">
             <div className="absolute inset-0 rounded-full bg-[var(--color-brand-500)]/20 blur-xl" />
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-brand-500)] to-[var(--color-brand-700)] border border-white/10 flex items-center justify-center shadow-[0_10px_40px_-10px_rgba(220,20,46,0.5)]">
+            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-brand-500)] to-[var(--color-brand-700)] border border-black/10 flex items-center justify-center shadow-[0_10px_40px_-10px_rgba(220,20,46,0.5)]">
               <svg className="w-7 h-7 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <rect x="4" y="9" width="12" height="9" rx="2" />
                 <path d="M7 9V6.5C7 4.8 8.3 3.5 10 3.5C11.7 3.5 13 4.8 13 6.5V9" />
@@ -106,7 +106,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
             <SummaryTile label="Niveau de préparation" value={PREP_LABEL[scoring.segment]} />
             <SummaryTile label="Compatibilité estimée" value={FIT_META[scoring.projectFit].label} />
           </div>
-          <p className="mt-8 text-sm text-slate-400 leading-relaxed">
+          <p className="mt-8 text-sm text-slate-600 leading-relaxed">
             Pour voir tes points forts, les éléments à valider et ton plan d&apos;action détaillé,
             débloque ton analyse complète.
           </p>
@@ -148,7 +148,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] leading-[1.05] tracking-tight text-balance">
           {report.headline}
         </h1>
-        <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-2xl mx-auto">
+        <p className="mt-5 text-base sm:text-lg text-slate-600 leading-relaxed text-balance max-w-2xl mx-auto">
           {report.summary}
         </p>
       </motion.div>
@@ -156,7 +156,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
       {/* Projet en un coup d'œil */}
       <Section title="Ton projet d'achat en un coup d'œil" delay={0.15}>
         <div className="glass-card rounded-2xl p-5 sm:p-6">
-          <p className="text-sm text-slate-300 leading-relaxed mb-4">{report.projectProfile}</p>
+          <p className="text-sm text-slate-700 leading-relaxed mb-4">{report.projectProfile}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <Info label="Secteur" value={regionName(answers.region) || "—"} />
             <Info label="Type" value={answers.propertyType ? PROPERTY_LABEL[answers.propertyType] : "—"} />
@@ -175,7 +175,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
           <p className="font-serif text-2xl text-[var(--color-brand-100)] mt-1.5">{PREP_LABEL[scoring.segment]}</p>
         </div>
         <div className={`rounded-2xl p-5 ${fit.bg} ring-1 ${fit.ring}`}>
-          <p className="text-[11px] uppercase tracking-wider text-slate-400">Compatibilité estimée</p>
+          <p className="text-[11px] uppercase tracking-wider text-slate-600">Compatibilité estimée</p>
           <p className={`font-serif text-2xl mt-1.5 ${fit.color}`}>{fit.label}</p>
         </div>
       </div>
@@ -192,7 +192,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
               <span className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[var(--color-brand-500)] to-[var(--color-brand-700)] flex items-center justify-center font-serif text-white text-sm shadow-[0_6px_18px_-4px_rgba(220,20,46,0.5)]">
                 {i + 1}
               </span>
-              <p className="text-sm text-slate-200 leading-relaxed self-center">{s}</p>
+              <p className="text-sm text-slate-700 leading-relaxed self-center">{s}</p>
             </li>
           ))}
         </ol>
@@ -212,13 +212,13 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
       </div>
 
       {/* Avertissement */}
-      <div className="mt-12 rounded-2xl bg-white/[0.03] border border-white/5 p-5">
+      <div className="mt-12 rounded-2xl bg-black/[0.025] border border-black/[0.08] p-5">
         <p className="text-[11px] text-slate-500 leading-relaxed">{report.disclaimer}</p>
       </div>
 
       {/* Footer */}
       <div className="mt-8 mb-16 text-center">
-        <button onClick={onRestart} className="text-sm text-slate-400 hover:text-[var(--color-brand-200)] transition-colors underline underline-offset-4 decoration-white/15">
+        <button onClick={onRestart} className="text-sm text-slate-600 hover:text-[var(--color-brand-200)] transition-colors underline underline-offset-4 decoration-black/15">
           Refaire l&apos;analyse
         </button>
         <p className="mt-6 text-[10px] text-slate-600 uppercase tracking-[0.2em]">
@@ -238,12 +238,12 @@ function ConfirmationBlock({ result }: { result: SubmitResult }) {
       transition={{ duration: 0.6 }}
       className={`rounded-3xl p-6 sm:p-7 ${
         stored
-          ? "bg-gradient-to-br from-emerald-500/15 to-[var(--color-brand-900)]/30 border border-emerald-400/30"
-          : "bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/30"
+          ? "bg-emerald-50 border border-emerald-300"
+          : "bg-[var(--color-brand-50)] border border-[var(--color-brand-400)]/40"
       }`}
     >
       {stored ? (
-        <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
+        <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
           <span className="font-serif text-lg text-[var(--color-brand-100)]">Merci {firstName} !</span>{" "}
           Ton analyse complète est ci-dessous. Un courtier de l&apos;équipe {BROKER_NAME} te
           joindra sous peu pour valider ton projet.
@@ -310,7 +310,7 @@ function ListSection({
         {items.map((it, i) => (
           <li key={i} className="flex items-start gap-3 text-sm">
             <span className={`shrink-0 mt-1.5 w-2 h-2 rounded-full ${tone === "positive" ? "bg-emerald-400" : "bg-[var(--color-brand-400)]"}`} />
-            <span className="text-slate-300 leading-relaxed">{it}</span>
+            <span className="text-slate-700 leading-relaxed">{it}</span>
           </li>
         ))}
       </ul>

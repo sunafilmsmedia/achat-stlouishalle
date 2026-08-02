@@ -34,8 +34,8 @@ export default function BedroomsQuestion({ value, onChange }: Props) {
               transition-all duration-200
               ${
                 selected
-                  ? "bg-gradient-to-br from-[var(--color-brand-600)]/30 to-[var(--color-brand-800)]/30 border border-[var(--color-brand-400)]/60 text-white shadow-[0_0_0_3px_rgba(220,20,46,0.12)]"
-                  : "glass-card text-[var(--color-brand-100)] hover:border-white/20 hover:bg-white/[0.06]"
+                  ? "bg-[var(--color-brand-500)]/[0.07] border border-[var(--color-brand-500)]/70 text-[var(--color-brand-600)] shadow-[0_0_0_3px_rgba(220,20,46,0.10)]"
+                  : "glass-card text-[var(--color-brand-100)] hover:border-black/15 hover:bg-black/[0.03]"
               }
             `}
           >

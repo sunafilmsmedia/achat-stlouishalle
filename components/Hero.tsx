@@ -27,7 +27,7 @@ export default function Hero({ onStart }: HeroProps) {
         </h1>
 
         {/* Sous-titre */}
-        <p className="mt-6 text-base sm:text-lg text-slate-400 max-w-xl mx-auto leading-relaxed text-balance">
+        <p className="mt-6 text-base sm:text-lg text-slate-600 max-w-xl mx-auto leading-relaxed text-balance">
           Déjà préapprouvé ? Entre ton budget, ton secteur et tes critères pour obtenir
           une analyse personnalisée de ton projet d&apos;achat sur la Rive-Sud.
         </p>
