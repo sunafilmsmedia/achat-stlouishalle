@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { computeScoring } from "@/lib/scoring";
+import { computeScoring, affordableAlternatives, isNotReady } from "@/lib/scoring";
 import { buildFallbackReport, STANDARD_DISCLAIMER } from "@/lib/fallbackReport";
 import { regionName, RANGES_SOURCE } from "@/lib/regions";
 import type { AnalyzeResponse, Answers, ProjectFit, Report } from "@/lib/types";
@@ -73,8 +73,10 @@ export async function POST(req: Request) {
       computed: {
         projectFit: scoring.projectFit,
         segment: scoring.segment, // interne, ne pas divulguer au visiteur
+        notReady: isNotReady(answers),
+        affordability: affordableAlternatives(answers),
       },
-      dataNote: `Les fourchettes de prix disponibles sont indicatives (${RANGES_SOURCE}). N'invente aucun autre chiffre.`,
+      dataNote: `Les fourchettes de prix disponibles sont indicatives (${RANGES_SOURCE}). N'invente aucun autre chiffre. Si "affordability.chosenAffordable" est faux, explique franchement que le type/secteur choisi est peu réaliste avec ce budget et propose plutôt les options de "affordability" (autres types du secteur, mêmes types ailleurs, ou "globalAffordable"). Si "notReady" est vrai, dis clairement que le projet n'est pas prêt (mise de fonds < 20 000 $ en achetant seul) et recommande de bâtir la mise de fonds ou d'acheter à plusieurs.`,
       requiredSchema: {
         headline: "phrase d'accroche, 1 ligne",
         summary: "résumé, 2-3 phrases",

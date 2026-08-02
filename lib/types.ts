@@ -21,12 +21,14 @@ export type PurchaseTimeline =
   | "6_12_months"
   | "exploring";
 
-export type CurrentHousing =
-  | "renter"
-  | "owner_must_sell"
-  | "owner_no_sale_needed"
-  | "with_family"
-  | "other";
+export type CurrentHousing = "renter" | "owner" | "with_family" | "other";
+
+// Pour un propriétaire : doit-il vendre avant d'acheter, ou peut-il acheter
+// sans vendre ?
+export type OwnerStrategy = "must_sell" | "no_sale_needed";
+
+// Achat seul ou à plusieurs (posé quand la mise de fonds est faible).
+export type BuyingWith = "alone" | "cobuyer";
 
 export type SalePreparation =
   | "not_started"
@@ -73,7 +75,9 @@ export interface Answers {
   mustHaves?: MustHave[];
   purchaseTimeline?: PurchaseTimeline;
   currentHousing?: CurrentHousing;
+  ownerStrategy?: OwnerStrategy;
   salePreparation?: SalePreparation;
+  buyingWith?: BuyingWith;
   brokerStatus?: BrokerStatus;
 }
 

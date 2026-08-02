@@ -2,7 +2,7 @@
 @import "leaflet/dist/leaflet.css";
 
 @theme {
-  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-serif: "Montserrat", "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   --color-ink-950: #050505;
@@ -41,6 +41,12 @@ html, body {
 
 body {
   overflow-x: hidden;
+}
+
+/* La police d'affichage doit toujours ressortir grasse et large. */
+.font-serif {
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 /* Cartes — verre clair sur fond blanc */

@@ -2,14 +2,126 @@ import type {
   Answers,
   LeadSegment,
   ProjectFit,
+  PropertyType,
   ScoringFactor,
   ScoringResult,
   SecondaryTag,
 } from "./types";
 import { REGIONS } from "./regions";
 
+// Seuil de mise de fonds sous lequel on questionne la préparation.
+export const LOW_DOWN_PAYMENT = 20000;
+
 function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
+}
+
+function budgetOf(answers: Answers): number {
+  return answers.approvedBudget ?? answers.targetBudget ?? 0;
+}
+
+// Un acheteur seul avec très peu de mise de fonds n'est pas prêt.
+export function isNotReady(answers: Answers): boolean {
+  return (
+    typeof answers.downPayment === "number" &&
+    answers.downPayment < LOW_DOWN_PAYMENT &&
+    answers.buyingWith === "alone"
+  );
+}
+
+export interface AffordableOptions {
+  budget: number;
+  chosenType?: PropertyType;
+  chosenRegion?: string;
+  // Le type choisi est-il réaliste dans le secteur choisi ?
+  chosenAffordable: boolean;
+  // Types abordables dans le secteur choisi (budget >= bas de fourchette).
+  affordableTypesInRegion: PropertyType[];
+  // Secteurs où le type choisi devient abordable.
+  affordableRegionsForType: string[];
+  // Repli global : combos (type + secteur) réellement accessibles avec ce
+  // budget, du plus abordable au moins abordable.
+  globalAffordable: { typeLabel: string; region: string; min: number }[];
+}
+
+const TYPE_LABEL_FR: Record<PropertyType, string> = {
+  house: "maison unifamiliale",
+  condo: "condo",
+  townhouse: "maison de ville",
+  plex: "plex",
+  open: "propriété",
+};
+
+export function typeLabelFr(t: PropertyType | undefined): string {
+  return t ? TYPE_LABEL_FR[t] : "propriété";
+}
+
+const TYPE_LABEL_ARTICLE_FR: Record<PropertyType, string> = {
+  house: "une maison unifamiliale",
+  condo: "un condo",
+  townhouse: "une maison de ville",
+  plex: "un plex",
+  open: "une propriété",
+};
+
+export function typeLabelWithArticleFr(t: PropertyType | undefined): string {
+  return t ? TYPE_LABEL_ARTICLE_FR[t] : "une propriété";
+}
+
+// Déterministe : que permet réellement ce budget ? N'invente aucun prix,
+// utilise seulement les fourchettes configurées.
+export function affordableAlternatives(answers: Answers): AffordableOptions {
+  const budget = budgetOf(answers);
+  const region = REGIONS.find((r) => r.id === answers.region);
+  const chosenType = answers.propertyType;
+
+  const affordableTypesInRegion: PropertyType[] = [];
+  if (region?.ranges) {
+    (Object.keys(region.ranges) as PropertyType[]).forEach((t) => {
+      const range = region.ranges![t];
+      if (range && budget >= range[0]) affordableTypesInRegion.push(t);
+    });
+  }
+
+  const affordableRegionsForType: string[] = [];
+  if (chosenType && chosenType !== "open") {
+    for (const r of REGIONS) {
+      const range = r.ranges?.[chosenType];
+      if (range && budget >= range[0]) affordableRegionsForType.push(r.name);
+    }
+  }
+
+  let chosenAffordable = true;
+  if (region?.ranges && chosenType && chosenType !== "open") {
+    const range = region.ranges[chosenType];
+    if (range) chosenAffordable = budget >= range[0];
+  }
+
+  // Repli global : tous les combos (secteur × type) accessibles, triés du
+  // plus abordable au moins abordable.
+  const globalAffordable: AffordableOptions["globalAffordable"] = [];
+  if (budget > 0) {
+    for (const r of REGIONS) {
+      if (!r.ranges) continue;
+      (Object.keys(r.ranges) as PropertyType[]).forEach((t) => {
+        const range = r.ranges![t];
+        if (range && budget >= range[0]) {
+          globalAffordable.push({ typeLabel: TYPE_LABEL_FR[t], region: r.name, min: range[0] });
+        }
+      });
+    }
+    globalAffordable.sort((a, b) => a.min - b.min);
+  }
+
+  return {
+    budget,
+    chosenType,
+    chosenRegion: region?.name,
+    chosenAffordable,
+    affordableTypesInRegion,
+    affordableRegionsForType,
+    globalAffordable,
+  };
 }
 
 // ── Compatibilité budget / secteur / type ───────────────────────────────────
@@ -117,13 +229,14 @@ export function computeScoring(answers: Answers): ScoringResult {
   // 4. Préparation résidentielle — max 10
   let residentialPrep = 0;
   const housing = answers.currentHousing;
+  const mustSell = housing === "owner" && answers.ownerStrategy === "must_sell";
   if (housing === "renter" || housing === "with_family") {
     residentialPrep = 10;
     factors.push({ label: "Aucune vente préalable requise", delta: 10, tone: "positive" });
-  } else if (housing === "owner_no_sale_needed") {
+  } else if (housing === "owner" && answers.ownerStrategy === "no_sale_needed") {
     residentialPrep = 8;
     factors.push({ label: "Propriétaire sans obligation de vendre", delta: 8, tone: "positive" });
-  } else if (housing === "owner_must_sell") {
+  } else if (mustSell) {
     switch (answers.salePreparation) {
       case "accepted_offer":
         residentialPrep = 10;
@@ -188,7 +301,7 @@ export function computeScoring(answers: Answers): ScoringResult {
   }
 
   const secondaryTags: SecondaryTag[] = [];
-  if (answers.currentHousing === "owner_must_sell") {
+  if (answers.currentHousing === "owner" && answers.ownerStrategy === "must_sell") {
     secondaryTags.push("seller_buyer_opportunity");
   }
 

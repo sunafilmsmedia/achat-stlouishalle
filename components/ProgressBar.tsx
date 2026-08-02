@@ -7,24 +7,39 @@ interface ProgressBarProps {
   total: number;
 }
 
+// Indicateur segmenté : un segment par étape, rempli au fur et à mesure.
 export default function ProgressBar({ current, total }: ProgressBarProps) {
-  const pct = Math.min(100, Math.max(0, ((current + 1) / total) * 100));
+  const done = Math.min(total, current + 1);
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2 tracking-wide">
-        <span className="uppercase">
-          Question <span className="text-[var(--color-brand-200)] font-medium">{current + 1}</span> / {total}
-        </span>
-        <span className="text-[var(--color-gold)] font-medium">{Math.round(pct)} %</span>
+      <div className="flex items-center gap-1.5">
+        {Array.from({ length: total }).map((_, i) => {
+          const filled = i < done;
+          const isCurrent = i === current;
+          return (
+            <div
+              key={i}
+              className="relative flex-1 h-1.5 rounded-full bg-black/[0.06] overflow-hidden"
+            >
+              <motion.div
+                initial={false}
+                animate={{ scaleX: filled ? 1 : 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{ transformOrigin: "left" }}
+                className={`absolute inset-0 rounded-full ${
+                  isCurrent
+                    ? "bg-[var(--color-brand-500)]"
+                    : "bg-[var(--color-brand-500)]/45"
+                }`}
+              />
+            </div>
+          );
+        })}
       </div>
-      <div className="h-[3px] w-full rounded-full bg-black/[0.04] overflow-hidden">
-        <motion.div
-          initial={false}
-          animate={{ width: `${pct}%` }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="h-full rounded-full bg-gradient-to-r from-[var(--color-brand-400)] via-[var(--color-brand-300)] to-[var(--color-gold)]"
-        />
-      </div>
+      <p className="mt-2.5 text-[11px] uppercase tracking-[0.14em] text-slate-500">
+        Étape <span className="text-[var(--color-brand-500)] font-semibold">{done}</span>
+        <span className="text-slate-400"> / {total}</span>
+      </p>
     </div>
   );
 }

@@ -4,12 +4,14 @@ export type QuestionId =
   | "financingStatus"
   | "budget" // approvedBudget OU targetBudget selon financingStatus
   | "downPayment"
+  | "buyingWith"
   | "region"
   | "propertyType"
   | "bedrooms"
   | "mustHaves"
   | "purchaseTimeline"
   | "currentHousing"
+  | "ownerStrategy"
   | "salePreparation"
   | "brokerStatus";
 
@@ -86,6 +88,18 @@ export const QUESTIONS: QuestionDef[] = [
     subtitle: "Ça nous aide à comprendre où en est ton projet — aucun calcul hypothécaire.",
   },
   {
+    id: "buyingWith",
+    kind: "choice",
+    title: "Achètes-tu seul ou à plusieurs ?",
+    subtitle: "Ça change ce qui est réaliste avec ta mise de fonds actuelle.",
+    autoAdvance: true,
+    showIf: (a) => typeof a.downPayment === "number" && a.downPayment < 20000,
+    choices: [
+      { value: "alone", label: "J'achète seul" },
+      { value: "cobuyer", label: "J'achète à plusieurs", hint: "Conjoint, famille, associé…" },
+    ],
+  },
+  {
     id: "region",
     kind: "region",
     title: "Dans quel secteur aimerais-tu acheter ?",
@@ -137,10 +151,20 @@ export const QUESTIONS: QuestionDef[] = [
     autoAdvance: true,
     choices: [
       { value: "renter", label: "Je suis locataire" },
-      { value: "owner_must_sell", label: "Propriétaire — je dois vendre avant d'acheter" },
-      { value: "owner_no_sale_needed", label: "Propriétaire — sans besoin de vendre" },
+      { value: "owner", label: "Je suis propriétaire" },
       { value: "with_family", label: "J'habite avec ma famille" },
       { value: "other", label: "Autre" },
+    ],
+  },
+  {
+    id: "ownerStrategy",
+    kind: "choice",
+    title: "Pour acheter, où en es-tu avec ta propriété actuelle ?",
+    autoAdvance: true,
+    showIf: (a) => a.currentHousing === "owner",
+    choices: [
+      { value: "must_sell", label: "Je dois vendre avant d'acheter" },
+      { value: "no_sale_needed", label: "Je peux acheter sans vendre" },
     ],
   },
   {
@@ -148,7 +172,7 @@ export const QUESTIONS: QuestionDef[] = [
     kind: "choice",
     title: "Où en es-tu avec la vente de ta propriété actuelle ?",
     autoAdvance: true,
-    showIf: (a) => a.currentHousing === "owner_must_sell",
+    showIf: (a) => a.currentHousing === "owner" && a.ownerStrategy === "must_sell",
     choices: [
       { value: "not_started", label: "Je n'ai encore rien commencé" },
       { value: "valuation_done", label: "J'ai déjà obtenu une évaluation" },
@@ -184,6 +208,8 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
       return typeof a.approvedBudget === "number" || typeof a.targetBudget === "number";
     case "downPayment":
       return typeof a.downPayment === "number" && a.downPayment >= 0;
+    case "buyingWith":
+      return !!a.buyingWith;
     case "region":
       return !!a.region;
     case "propertyType":
@@ -196,6 +222,8 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
       return !!a.purchaseTimeline;
     case "currentHousing":
       return !!a.currentHousing;
+    case "ownerStrategy":
+      return !!a.ownerStrategy;
     case "salePreparation":
       return !!a.salePreparation;
     case "brokerStatus":

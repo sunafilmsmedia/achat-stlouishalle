@@ -88,8 +88,16 @@ export default function QualificationForm({ onComplete, onDisqualified, onExit }
             delete merged.approvedBudget;
           }
         }
-        if ("currentHousing" in partial && partial.currentHousing !== "owner_must_sell") {
+        if ("currentHousing" in partial && partial.currentHousing !== "owner") {
+          delete merged.ownerStrategy;
           delete merged.salePreparation;
+        }
+        if ("ownerStrategy" in partial && partial.ownerStrategy !== "must_sell") {
+          delete merged.salePreparation;
+        }
+        // Si la mise de fonds repasse au-dessus du seuil, on oublie buyingWith.
+        if ("downPayment" in partial && typeof partial.downPayment === "number" && partial.downPayment >= 20000) {
+          delete merged.buyingWith;
         }
         next = merged;
         return merged;
@@ -270,6 +278,14 @@ function QuestionRenderer({ current, answers, onUpdate }: RendererProps) {
           helper="Sert à comprendre l'état de préparation, pas à calculer un prêt."
         />
       );
+    case "buyingWith":
+      return (
+        <ChoiceQuestion
+          choices={current.choices!}
+          value={answers.buyingWith}
+          onChange={(v) => onUpdate({ buyingWith: v as Answers["buyingWith"] }, auto)}
+        />
+      );
     case "region":
       return (
         <RegionMap
@@ -318,6 +334,14 @@ function QuestionRenderer({ current, answers, onUpdate }: RendererProps) {
           choices={current.choices!}
           value={answers.currentHousing}
           onChange={(v) => onUpdate({ currentHousing: v as Answers["currentHousing"] }, auto)}
+        />
+      );
+    case "ownerStrategy":
+      return (
+        <ChoiceQuestion
+          choices={current.choices!}
+          value={answers.ownerStrategy}
+          onChange={(v) => onUpdate({ ownerStrategy: v as Answers["ownerStrategy"] }, auto)}
         />
       );
     case "salePreparation":

@@ -5,8 +5,26 @@ import { useState } from "react";
 import { BROKER_NAME } from "@/lib/broker";
 import { regionName } from "@/lib/regions";
 import { formatCurrency } from "@/lib/format";
+import { isNotReady } from "@/lib/scoring";
 import type { AnalyzeResponse, Answers, LeadSegment, ProjectFit } from "@/lib/types";
 import ContactForm, { type SubmitResult } from "./ContactForm";
+import PropertyIllustration from "./PropertyIllustration";
+
+// Verdict avec mot-clé mis en évidence (rendu en rouge dans le titre).
+function verdictParts(fit: ProjectFit, notReady: boolean): { pre: string; em: string; post: string } {
+  if (notReady) return { pre: "Ton projet ", em: "n'est pas encore prêt", post: "." };
+  switch (fit) {
+    case "strong":
+      return { pre: "Ton projet est ", em: "bien aligné", post: "." };
+    case "possible":
+      return { pre: "Ton projet est ", em: "réaliste", post: "." };
+    case "tight":
+      return { pre: "Ton projet est ", em: "ambitieux", post: " — mais faisable." };
+    case "unknown":
+    default:
+      return { pre: "Ton projet mérite une ", em: "validation", post: "." };
+  }
+}
 
 interface Props {
   analyze: AnalyzeResponse;
@@ -98,10 +116,20 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
     return (
       <div className="min-h-screen px-5 sm:px-8 py-12 sm:py-16 max-w-xl mx-auto w-full text-center">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+          <div className="flex justify-center mb-5">
+            <PropertyIllustration type={answers.propertyType} />
+          </div>
           <p className="text-[11px] uppercase tracking-[0.25em] text-[var(--color-brand-300)] mb-3">Résumé</p>
-          <h1 className="font-serif text-3xl sm:text-4xl text-[var(--color-brand-100)] leading-tight text-balance">
-            {report.headline}
-          </h1>
+          {(() => {
+            const p = verdictParts(report.fitLevel, isNotReady(answers));
+            return (
+              <h1 className="font-serif text-3xl sm:text-4xl text-[var(--color-brand-100)] leading-tight text-balance">
+                {p.pre}
+                <span className="text-[var(--color-brand-500)]">{p.em}</span>
+                {p.post}
+              </h1>
+            );
+          })()}
           <div className="mt-8 grid grid-cols-2 gap-3">
             <SummaryTile label="Niveau de préparation" value={PREP_LABEL[scoring.segment]} />
             <SummaryTile label="Compatibilité estimée" value={FIT_META[scoring.projectFit].label} />
@@ -143,11 +171,28 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
       {/* Confirmation soumission */}
       {submission && <ConfirmationBlock result={submission} />}
 
-      {/* Headline */}
+      {/* Illustration + verdict (mot-clé en rouge) */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="text-center mt-10 mb-10">
-        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] leading-[1.05] tracking-tight text-balance">
-          {report.headline}
-        </h1>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center mb-6"
+        >
+          <PropertyIllustration type={answers.propertyType} />
+        </motion.div>
+
+        {(() => {
+          const p = verdictParts(report.fitLevel, isNotReady(answers));
+          return (
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] leading-[1.05] tracking-tight text-balance">
+              {p.pre}
+              <span className="text-[var(--color-brand-500)]">{p.em}</span>
+              {p.post}
+            </h1>
+          );
+        })()}
+
         <p className="mt-5 text-base sm:text-lg text-slate-600 leading-relaxed text-balance max-w-2xl mx-auto">
           {report.summary}
         </p>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Instrument_Serif } from "next/font/google";
+import { DM_Sans, Montserrat } from "next/font/google";
 import MetaPixel from "@/components/MetaPixel";
 import Clarity from "@/components/Clarity";
 import { BROKER_NAME, BROKER_REGION } from "@/lib/broker";
@@ -11,11 +11,12 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
+// Police d'affichage — grasse et large (titres, chiffres, verdicts).
+const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-serif",
   display: "swap",
-  weight: "400",
+  weight: ["600", "700", "800", "900"],
   style: ["normal", "italic"],
 });
 
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr-CA" className={`${dmSans.variable} ${instrumentSerif.variable}`}>
+    <html lang="fr-CA" className={`${dmSans.variable} ${montserrat.variable}`}>
       <body className="min-h-screen antialiased">
         <MetaPixel />
         <Clarity />

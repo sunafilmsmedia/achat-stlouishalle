@@ -83,7 +83,9 @@ export async function POST(req: Request) {
     mustHaves: answers.mustHaves ?? [],
     purchaseTimeline: answers.purchaseTimeline ?? "",
     currentHousing: answers.currentHousing ?? "",
+    ownerStrategy: answers.ownerStrategy ?? "",
     salePreparation: answers.salePreparation ?? "",
+    buyingWith: answers.buyingWith ?? "",
     brokerStatus: answers.brokerStatus ?? "",
 
     consent: !!consent,
